@@ -36,7 +36,7 @@ export default function Page() {
         >
           <MooDengSvg />
         </div>
-        <div className="flex items-center justify-end w-[200px]">
+        <div className="flex items-center justify-end w-[120px] md:w-[200px]">
           {address ? (
             <TransactionWrapper 
               address={mooDengAddress} 
@@ -45,7 +45,7 @@ export default function Page() {
             />
           ) : (
             <WalletWrapper
-              className="w-[200px] bg-zinc-950 hover:bg-zinc-800 font-mono rounded-none"
+              className="w-[120px] md:w-[200px] text-xs md:text-base bg-zinc-950 hover:bg-zinc-800 font-mono rounded-none"
               text="Donate 0.1 USDC"
             />
           )}
@@ -62,8 +62,8 @@ export default function Page() {
           />
         </div>
       </main>
-      <main className="flex flex-col md:flex-row space-x-56 mt-4 mb-16">
-        <div className="w-full md:w-[360px] space-y-4">
+      <main className="flex flex-col md:flex-row md:space-x-56 mt-4 mb-16 px-4 md:px-0">
+        <div className="w-full md:w-[360px] space-y-4 mb-8 md:mb-0">
           <p className="text-zinc-950">
             OPEN DONATION FOR <a href={'https://reliefweb.int/report/viet-nam/one-month-super-typhoon-yagi-learning-loss-affecting-13-million-children-across-southeast-asia'} target="_blank" rel="noreferrer" className="underline">FLOOD-AFFECTED SCHOOLS IN NORTHERN THAILAND</a>.
           </p>

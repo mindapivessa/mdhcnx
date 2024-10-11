@@ -56,7 +56,7 @@ export default function TransactionWrapper({ address, amount, onSuccess }: Trans
         onSuccess={handleSuccess}
       >
         <TransactionButton 
-          className="font-mono mt-0 mr-auto ml-auto w-[200px] text-zinc-50 bg-zinc-950 rounded-none hover:bg-zinc-800" 
+          className="font-mono w-[120px] md:w-[200px] text-xs md:text-base bg-zinc-950 hover:bg-zinc-800 font-mono rounded-none" 
           text="Donate 0.1 USDC"
         />
       </Transaction>
