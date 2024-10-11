@@ -1,7 +1,9 @@
 'use client';
+import { useState } from 'react';
 import Footer from 'src/components/Footer';
 import TransactionWrapper from 'src/components/TransactionWrapper';
 import WalletWrapper from 'src/components/WalletWrapper';
+import FallingMooDengs from 'src/components/FallingMooDengs';
 import { ONCHAINKIT_LINK } from 'src/links';
 import MooDengSvg from 'src/svg/MooDengSvg';
 import { useAccount } from 'wagmi';
@@ -12,9 +14,16 @@ import Image from 'next/image';
 
 export default function Page() {
   const { address } = useAccount();
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  const handleTransactionSuccess = () => {
+    setShowAnimation(true);
+    setTimeout(() => setShowAnimation(false), 5000); // Stop animation after 5 seconds
+  };
 
   return (
     <div className="flex flex-col w-full px-4">
+      <FallingMooDengs show={showAnimation} />
       <section className="mt-6 mb-3 flex w-full flex-row items-center justify-between">
         <a
           href={ONCHAINKIT_LINK}
@@ -26,11 +35,15 @@ export default function Page() {
         </a>
         <div className="flex items-center justify-end w-[200px]">
           {address ? (
-            <TransactionWrapper address={mooDengAddress} amount={1} />
+            <TransactionWrapper 
+              address={mooDengAddress} 
+              amount={5} 
+              onSuccess={handleTransactionSuccess} 
+            />
           ) : (
             <WalletWrapper
               className="w-[200px] bg-zinc-950 hover:bg-zinc-800 font-mono"
-              text="Donate 10 USDC"
+              text="Donate 5 USDC"
             />
           )}
         </div>
