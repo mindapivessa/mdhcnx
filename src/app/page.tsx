@@ -42,7 +42,7 @@ export default function Page() {
             />
           ) : (
             <WalletWrapper
-              className="w-[200px] bg-zinc-950 hover:bg-zinc-800 font-mono"
+              className="w-[200px] bg-zinc-950 hover:bg-zinc-800 font-mono rounded-none"
               text="Donate 5 USDC"
             />
           )}
