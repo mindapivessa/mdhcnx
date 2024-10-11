@@ -13,17 +13,25 @@ import type {
 import type { Address, ContractFunctionParameters } from 'viem';
 import {
   BASE_SEPOLIA_CHAIN_ID,
-  mintABI,
-  mintContractAddress,
+  transferABI,
+  usdcAddress,
 } from '../constants';
 
-export default function TransactionWrapper({ address }: { address: Address }) {
+type TransactionWrapperProps = {
+  address: Address;
+  amount: number;
+};
+
+export default function TransactionWrapper({ address, amount }: TransactionWrapperProps) {
+  // Convert decimal amount to BigInt (USDC has 6 decimal places)
+  const amountInSmallestUnit = BigInt(Math.floor(amount * 1_000_000));
+
   const contracts = [
     {
-      address: mintContractAddress,
-      abi: mintABI,
-      functionName: 'mint',
-      args: [address],
+      address: usdcAddress,
+      abi: transferABI,
+      functionName: 'transfer',
+      args: [address, amountInSmallestUnit],
     },
   ] as unknown as ContractFunctionParameters[];
 
@@ -44,11 +52,10 @@ export default function TransactionWrapper({ address }: { address: Address }) {
         onError={handleError}
         onSuccess={handleSuccess}
       >
-        <TransactionButton className="mt-0 mr-auto ml-auto w-[450px] max-w-full text-[white]" />
-        <TransactionStatus>
-          <TransactionStatusLabel />
-          <TransactionStatusAction />
-        </TransactionStatus>
+        <TransactionButton 
+          className="mt-0 mr-auto ml-auto w-[200px] text-zinc-50 bg-zinc-950 rounded-none hover:bg-zinc-800" 
+          text="Donate 10 USDC"
+        />
       </Transaction>
     </div>
   );
