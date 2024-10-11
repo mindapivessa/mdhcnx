@@ -29,7 +29,9 @@ const FallingMooDengs: React.FC<FallingMooDengsProps> = ({ trigger }) => {
   }, []);
 
   useEffect(() => {
-    setMooDengs(createMooDengs());
+    if (trigger) {
+      setMooDengs(createMooDengs());
+    }
   }, [trigger, createMooDengs]);
 
   useEffect(() => {

@@ -15,13 +15,14 @@ export default function Page() {
   const { address } = useAccount();
   const [triggerAnimation, setTriggerAnimation] = useState(false);
 
-  const handleTransactionSuccess = useCallback(() => {
-    setTriggerAnimation(prev => !prev);
+  const handleAnimationTrigger = useCallback(() => {
+    setTriggerAnimation(true);
+    setTimeout(() => setTriggerAnimation(false), 100); // Reset trigger after a short delay
   }, []);
 
   const handleMooDengClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setTriggerAnimation(prev => !prev);
+    handleAnimationTrigger();
   };
 
   return (
@@ -40,7 +41,7 @@ export default function Page() {
             <TransactionWrapper 
               address={mooDengAddress} 
               amount={0.1} 
-              onSuccess={handleTransactionSuccess} 
+              onSuccess={handleAnimationTrigger} 
             />
           ) : (
             <WalletWrapper
