@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { NEXT_PUBLIC_URL } from '../config';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 
 import './global.css';
 import '@coinbase/onchainkit/styles.css';
@@ -19,11 +21,11 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Onchain App Template',
-  description: 'Built with OnchainKit',
+  title: 'Moo Deng Helps Chiang Mai',
+  description: 'Donate USDC to help flood-affected schools in Chiang Mai, Thailand',
   openGraph: {
-    title: 'Onchain App Template',
-    description: 'Built with OnchainKit',
+    title: 'Moo Deng Helps Chiang Mai',
+    description: 'Donate USDC to help flood-affected schools in Chiang Mai, Thailand',
     images: [`${NEXT_PUBLIC_URL}/vibes/vibes-19.png`],
   },
 };
