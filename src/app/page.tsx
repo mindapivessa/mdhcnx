@@ -1,10 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Footer from 'src/components/Footer';
 import TransactionWrapper from 'src/components/TransactionWrapper';
 import WalletWrapper from 'src/components/WalletWrapper';
 import FallingMooDengs from 'src/components/FallingMooDengs';
-import { ONCHAINKIT_LINK } from 'src/links';
 import MooDengSvg from 'src/svg/MooDengSvg';
 import { useAccount } from 'wagmi';
 import LoginButton from '../components/LoginButton';
@@ -14,36 +13,39 @@ import Image from 'next/image';
 
 export default function Page() {
   const { address } = useAccount();
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [triggerAnimation, setTriggerAnimation] = useState(false);
 
-  const handleTransactionSuccess = () => {
-    setShowAnimation(true);
-    setTimeout(() => setShowAnimation(false), 5000); // Stop animation after 5 seconds
+  const handleTransactionSuccess = useCallback(() => {
+    setTriggerAnimation(prev => !prev);
+  }, []);
+
+  const handleMooDengClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setTriggerAnimation(prev => !prev);
   };
 
   return (
     <div className="flex flex-col w-full px-4">
-      <FallingMooDengs show={showAnimation} />
+      <FallingMooDengs trigger={triggerAnimation} />
       <section className="mt-6 mb-3 flex w-full flex-row items-center justify-between">
-        <a
-          href={ONCHAINKIT_LINK}
-          title="onchainkit"
-          target="_blank"
-          rel="noreferrer"
+        <div 
+          onClick={handleMooDengClick}
+          className="cursor-pointer transition-transform duration-300 ease-in-out hover:rotate-[-15deg]"
+          title="Click for a surprise!"
         >
           <MooDengSvg />
-        </a>
+        </div>
         <div className="flex items-center justify-end w-[200px]">
           {address ? (
             <TransactionWrapper 
               address={mooDengAddress} 
-              amount={5} 
+              amount={0.1} 
               onSuccess={handleTransactionSuccess} 
             />
           ) : (
             <WalletWrapper
               className="w-[200px] bg-zinc-950 hover:bg-zinc-800 font-mono rounded-none"
-              text="Donate 5 USDC"
+              text="Donate 0.1 USDC"
             />
           )}
         </div>
@@ -82,7 +84,7 @@ export default function Page() {
               <span className="text-gray-50 text-sm">2</span>
             </div>
             <div className="text-zinc-950 mt-1">
-              <p className="mb-2">
+              <p className="mb-4">
                 EVERY SUNDAY 9AM EST, DONATIONS WILL BE CONVERTED TO THB AND TRANSFERRED TO <a href={'https://www.instagram.com/satifound/?hl=en'} target="_blank" rel="noreferrer" className="underline">SATI FOUNDATION</a>.
               </p>
               <p>

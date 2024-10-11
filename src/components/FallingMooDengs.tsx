@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import MooDengSvg from 'src/svg/MooDengSvg';
 
 interface FallingMooDeng {
@@ -7,39 +7,52 @@ interface FallingMooDeng {
   y: number;
   speed: number;
   rotation: number;
+  rotationSpeed: number;
 }
 
-const FallingMooDengs: React.FC<{ show: boolean }> = ({ show }) => {
+interface FallingMooDengsProps {
+  trigger: boolean;
+}
+
+const FallingMooDengs: React.FC<FallingMooDengsProps> = ({ trigger }) => {
   const [mooDengs, setMooDengs] = useState<FallingMooDeng[]>([]);
 
-  useEffect(() => {
-    if (show) {
-      const newMooDengs = Array.from({ length: 20 }, (_, i) => ({
-        id: i,
-        x: Math.random() * window.innerWidth,
-        y: -100,
-        speed: 1 + Math.random() * 4,
-        rotation: Math.random() * 360,
-      }));
-      setMooDengs(newMooDengs);
+  const createMooDengs = useCallback(() => {
+    return Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: -100 - Math.random() * 500,
+      speed: 3 + Math.random() * 7,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 5,
+    }));
+  }, []);
 
+  useEffect(() => {
+    setMooDengs(createMooDengs());
+  }, [trigger, createMooDengs]);
+
+  useEffect(() => {
+    if (mooDengs.length > 0) {
       const animationInterval = setInterval(() => {
-        setMooDengs((prev) =>
-          prev.map((mooDeng) => ({
-            ...mooDeng,
-            y: mooDeng.y + mooDeng.speed,
-            rotation: mooDeng.rotation + 2,
-          }))
-        );
-      }, 50);
+        setMooDengs((prev) => {
+          const updatedMooDengs = prev
+            .map((mooDeng): FallingMooDeng => ({
+              ...mooDeng,
+              y: mooDeng.y + mooDeng.speed,
+              rotation: (mooDeng.rotation + mooDeng.rotationSpeed) % 360,
+            }))
+            .filter((mooDeng) => mooDeng.y < window.innerHeight + 100);
+
+          return updatedMooDengs.length === 0 ? [] : updatedMooDengs;
+        });
+      }, 16);
 
       return () => clearInterval(animationInterval);
-    } else {
-      setMooDengs([]);
     }
-  }, [show]);
+  }, [mooDengs]);
 
-  if (!show) return null;
+  if (mooDengs.length === 0) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">

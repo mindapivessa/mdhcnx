@@ -20,10 +20,10 @@ import {
 type TransactionWrapperProps = {
   address: Address;
   amount: number;
-  onSuccess?: () => void;
+  onSuccess: () => void;
 };
 
-export default function TransactionWrapper({ address, amount }: TransactionWrapperProps) {
+export default function TransactionWrapper({ address, amount, onSuccess }: TransactionWrapperProps) {
   // Convert decimal amount to BigInt (USDC has 6 decimal places)
   const amountInSmallestUnit = BigInt(Math.floor(amount * 1_000_000));
 
@@ -42,6 +42,7 @@ export default function TransactionWrapper({ address, amount }: TransactionWrapp
 
   const handleSuccess = (response: TransactionResponse) => {
     console.log('Transaction successful', response);
+    onSuccess();
   };
 
   return (
@@ -55,7 +56,7 @@ export default function TransactionWrapper({ address, amount }: TransactionWrapp
       >
         <TransactionButton 
           className="font-mono mt-0 mr-auto ml-auto w-[200px] text-zinc-50 bg-zinc-950 rounded-none hover:bg-zinc-800" 
-          text="Donate 5 USDC"
+          text="Donate 0.1 USDC"
         />
       </Transaction>
     </div>

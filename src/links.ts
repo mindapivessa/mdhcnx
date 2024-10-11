@@ -4,3 +4,4 @@ export const FIGMA_LINK =
 export const GITHUB_LINK = 'https://github.com/coinbase/onchainkit';
 export const ONCHAINKIT_LINK = 'https://onchainkit.xyz';
 export const TWITTER_LINK = 'https://x.com/Onchainkit';
+export const MOODENG_LINK = 'https://mdhcnx.vercel.app/';
